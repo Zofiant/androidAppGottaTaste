@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "521132942188",
+    "firebase_url": "https://appgottataste-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "appgottataste",
+    "storage_bucket": "appgottataste.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521132942188:android:f2f451baf8bbffa90b0949",
+        "android_client_info": {
+          "package_name": "com.example.datagottataste"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuuIC_SZGstmF4Uu0PSloNE6PHXpIxH6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
