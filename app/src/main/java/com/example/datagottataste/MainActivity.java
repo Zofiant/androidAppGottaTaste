@@ -1,15 +1,114 @@
 package com.example.datagottataste;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.example.datagottataste.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.util.EventListener;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
+    private Button addRec,addPhoto;
+    private EditText edName,edCal;
+    private DatabaseReference mDataBase;
+    private String RECIPE_KEY = "Recipe";
+    private ImageView imgRec;
+    private StorageReference mStorageRef;
+    private Uri uploadUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        init();
 
     }
+
+    public void init(){
+        addRec = binding.buttonAddRec;
+        edName = binding.editTextName;
+        edCal = binding.editTextCal;
+        mDataBase = FirebaseDatabase.getInstance().getReference(RECIPE_KEY);
+        imgRec = binding.imageRec;
+        mStorageRef = FirebaseStorage.getInstance().getReference("ImageDB");
+    }
+    public void onClickSave(View view){
+        String id = mDataBase.getKey();
+        String name = edName.getText().toString();
+        String cal = edCal.getText().toString();
+        RecipeBd newRecipe = new RecipeBd(id,name,cal);
+        mDataBase.push().setValue(newRecipe);
+
+    }
+
+    public void onClickChooseImage(View view){
+        getImage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && data!=null && data.getData() != null) {
+            if(resultCode == RESULT_OK) {
+                Log.d("MyLog","Image URI:" + data.getData());
+                imgRec.setImageURI(data.getData());
+
+            }
+        }
+    }
+
+    private void getImage(){
+        Intent intentChooser = new Intent();
+        intentChooser.setType("image/*");
+        intentChooser.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intentChooser,1);
+    }
+    //Загрузка на бд Firebase
+    private void uploadImage(){
+        Bitmap bitMap = ((BitmapDrawable) imgRec.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitMap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] byteArray = baos.toByteArray();
+        final StorageReference mRef = mStorageRef.child(System.currentTimeMillis()+"Recipe");//Названия зависят от милисекунд
+        UploadTask up = mRef.putBytes(byteArray);
+        Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                return mRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                uploadUri = task.getResult();
+
+            }
+        });
+    }
+
+
 }
