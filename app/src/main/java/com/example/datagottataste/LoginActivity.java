@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        Intent start = new Intent(LoginActivity.this, MainActivity.class);
+        Intent start = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(start);
     }
 
@@ -62,13 +62,13 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Вход прошел успешно.",
                                 Toast.LENGTH_SHORT).show();
 
-                        //updateUI(user);
+                        updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                         Toast.makeText(LoginActivity.this, "Ошибка аутентификации",
                                 Toast.LENGTH_SHORT).show();
-                        //updateUI(null);
+                        updateUI(null);
                     }
 
                 }
@@ -86,13 +86,13 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Регистрация прошла успешно.",
                                 Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
-                        //updateUI(user);
+                        updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                         Toast.makeText(LoginActivity.this, "Ошибка аутентификации",
                                 Toast.LENGTH_SHORT).show();
-                        //updateUI(null);
+                        updateUI(null);
                     }
 
                 }
