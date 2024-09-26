@@ -27,8 +27,8 @@ public class DietaFragment extends Fragment {
     private static final String ARG_DATE = "arg_date";
     private String formattedDate;
     private ListView recipeList;
-    private RecipeAdapter adapter;
-    private List<RecipeChar> checkedRecipe;
+    private RecipeListAdapter adapter;
+    private List<RecipeItem> checkedRecipe;
     private FragmentDietaBinding binding;
     private SharedPreferences sharedPreferences;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -65,26 +65,9 @@ public class DietaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Создание ActivityResultLauncher
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // Обработка результата
-                        Intent data = result.getData();
-                        if (data!= null) {
-
-                            checkedRecipe = (List<RecipeChar>) data.getSerializableExtra("checkedRecipe");
-                            adapter = new RecipeAdapter(getContext(), checkedRecipe);
-                            binding.dateRecipeList.setAdapter(adapter);
-                            double totalCal = adapter.calculateTotalCal(checkedRecipe);
-                            binding.calories.setText(totalCal+"/2000 каллорий");
-
-                        }
-                    }
-                });
 
         binding.btnAddRecipe.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), PickRecipeActivity.class);
+            Intent intent = new Intent(requireContext(), PickRecipeActivity.class);
             activityResultLauncher.launch(intent);
         });
     }

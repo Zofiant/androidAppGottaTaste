@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
         String formattedDate = localDate.format(formatter);
         binding.Date.setText(formattedDate);
-        updateFragment(localDate);
+        updateFragment(formattedDate);
     }
 
     public void setDate(View v) {
@@ -54,9 +54,9 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
-    private void updateFragment(LocalDate localDate) {
+    private void updateFragment(String formattedDate) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        DietaFragment fragment = DietaFragment.newInstance(String.valueOf(localDate)); // Передаем строку с форматированным временем
+        DietaFragment fragment = DietaFragment.newInstance(formattedDate); // Передаем строку с форматированным временем
         fragmentManager.beginTransaction()
                 .replace(R.id.containerOfDate, fragment)
                 .commit();
