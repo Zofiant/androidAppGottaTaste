@@ -39,7 +39,7 @@ public class PickRecipeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mDataBase = FirebaseDatabase
                 .getInstance(Const.DB_URL)
-                .getReference(Const.KEY_EVENTS);
+                .getReference(Const.KEY_RECIPE);
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
         DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -73,10 +73,10 @@ public class PickRecipeActivity extends AppCompatActivity {
     }
 
     private void updateUI(List<RecipeItem> list) {
-        recipeAdapter = new RecipeListAdapter(this, recipeList, event -> {
+        recipeAdapter = new RecipeListAdapter(this, recipeList, recipe -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("user", user);
-            bundle.putParcelable("event", event);
+
+            bundle.putParcelable("recipe", recipe);
 
         });
         binding.recyclerView.setAdapter(recipeAdapter);

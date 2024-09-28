@@ -31,7 +31,7 @@ public class DietaFragment extends Fragment {
     private List<RecipeItem> checkedRecipe;
     private FragmentDietaBinding binding;
     private SharedPreferences sharedPreferences;
-    private ActivityResultLauncher<Intent> activityResultLauncher;
+    //private ActivityResultLauncher<Intent> activityResultLauncher;
 
 
     public static DietaFragment newInstance(String formattedDate) { // Изменено имя параметра
@@ -46,6 +46,7 @@ public class DietaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments()!= null) {
             formattedDate = getArguments().getString("formattedDate"); // Получаем строку с форматированным временем
+
         }
     }
 
@@ -67,7 +68,7 @@ public class DietaFragment extends Fragment {
 
 
         binding.btnAddRecipe.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), PickRecipeActivity.class);
+            Intent intent = new Intent(getContext(), PickRecipeActivity.class);
             activityResultLauncher.launch(intent);
         });
     }
@@ -78,13 +79,14 @@ public class DietaFragment extends Fragment {
     }
 
     public void saveDietData(String dietData) {
-        String dateKey = String.valueOf(formattedDate);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(dateKey, dietData);
-        editor.apply();
+
     }
-
-
-
+    private final ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // Handle the result from PickRecipeActivity
+                        }
+                    });
 
 }

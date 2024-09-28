@@ -14,9 +14,11 @@
        />
 
     <Button
+        android:text="Добавить рецепт"
+        android:id="@+id/btnAddRecipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnAddRecipe"
-        android:layout_margin="150dp"/>
+        android:layout_margin="150dp"
+         />
 
 </FrameLayout>
