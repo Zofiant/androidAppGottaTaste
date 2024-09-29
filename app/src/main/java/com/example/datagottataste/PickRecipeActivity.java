@@ -26,7 +26,7 @@ public class PickRecipeActivity extends AppCompatActivity {
     ActivityPickRecipeBinding binding;
     private RecipeListAdapter recipeAdapter;
     private User user;
-    private List<RecipeItem> recipeList;
+    private List<RecipeBd> recipeList;
 
     DatabaseReference mDataBase;
     StorageReference mStorageReference;
@@ -57,7 +57,7 @@ public class PickRecipeActivity extends AppCompatActivity {
                 // Метод вызывается при каждом изменении данных в указанном пути
                 recipeList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    RecipeItem item = snapshot.getValue(RecipeItem.class);
+                    RecipeBd item = snapshot.getValue(RecipeBd.class);
                     recipeList.add(item);
                 }
                 // Обработка или отображение полученного списка
@@ -72,18 +72,20 @@ public class PickRecipeActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUI(List<RecipeItem> list) {
+    private void updateUI(List<RecipeBd> list) {
         recipeAdapter = new RecipeListAdapter(this, recipeList, recipe -> {
             Bundle bundle = new Bundle();
 
-            bundle.putParcelable("recipe", recipe);
+
+
+            bundle.putParcelable("Recipe", recipe);
 
         });
         binding.recyclerView.setAdapter(recipeAdapter);
     }
 
     public void goActivityNewRec(){
-        Intent start = new Intent(PickRecipeActivity.this, HomeActivity.class);
+        Intent start = new Intent(PickRecipeActivity.this, MainActivity.class);
         startActivity(start);
 
     }

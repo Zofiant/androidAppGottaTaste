@@ -16,14 +16,14 @@ import java.util.List;
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeViewHolder> {
 
     private Context context;
-    private List<RecipeItem> recipeList;
+    private List<RecipeBd> recipeList;
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(RecipeItem event);
+        void onItemClick(RecipeBd event);
     }
 
-    public RecipeListAdapter(Context context, List<RecipeItem> recipeList, OnItemClickListener onItemClickListener) {
+    public RecipeListAdapter(Context context, List<RecipeBd> recipeList, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.recipeList = recipeList;
         this.onItemClickListener = onItemClickListener;
@@ -38,7 +38,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        RecipeItem recipe = recipeList.get(position);
+        RecipeBd recipe = recipeList.get(position);
         holder.RecipeNameTextView.setText(recipe.getName());
         holder.CalTextView.setText(recipe.getCal());
         if (recipe.getImageUrl() != null && !recipe.getImageUrl().isEmpty()) {

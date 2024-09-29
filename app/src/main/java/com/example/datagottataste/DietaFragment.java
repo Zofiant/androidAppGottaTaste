@@ -21,14 +21,14 @@ import com.example.datagottataste.databinding.FragmentDietaBinding;
 
 import java.io.Serializable;
 import java.util.List;
-/*TODO understand what that shitty code does and add RecipeAdapter and RecipeItem for it.
+/*TODO understand what that shitty code does and add RecipeAdapter and RecipeBd for it.
    Choose between recycleView and listView */
 public class DietaFragment extends Fragment {
     private static final String ARG_DATE = "arg_date";
     private String formattedDate;
     private ListView recipeList;
     private RecipeListAdapter adapter;
-    private List<RecipeItem> checkedRecipe;
+    private List<RecipeBd> checkedRecipe;
     private FragmentDietaBinding binding;
     private SharedPreferences sharedPreferences;
     //private ActivityResultLauncher<Intent> activityResultLauncher;

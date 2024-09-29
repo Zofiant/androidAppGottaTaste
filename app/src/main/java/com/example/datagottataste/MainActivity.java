@@ -9,11 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.datagottataste.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.Continuation;
@@ -26,14 +28,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.EventListener;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private Button addRec,addPhoto;
     private EditText edName,edCal;
     private DatabaseReference mDataBase;
-    private String RECIPE_KEY = "Recipe";
+
     private ImageView imgRec;
     private StorageReference mStorageRef;
     private Uri uploadUri;
@@ -53,16 +54,29 @@ public class MainActivity extends AppCompatActivity {
         addRec = binding.buttonAddRec;
         edName = binding.editTextName;
         edCal = binding.editTextCal;
-        mDataBase = FirebaseDatabase.getInstance().getReference(RECIPE_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Const.KEY_RECIPE);
         imgRec = binding.imageRec;
         mStorageRef = FirebaseStorage.getInstance().getReference("ImageDB");
     }
-    public void onClickSave(View view){
-        String id = mDataBase.getKey();
+
+    public void saveRecipe(){
+        String id = mDataBase.push().getKey();
         String name = edName.getText().toString();
         String cal = edCal.getText().toString();
-        RecipeBd newRecipe = new RecipeBd(id,name,cal);
-        mDataBase.push().setValue(newRecipe);
+        RecipeBd newRecipe = new RecipeBd(id,name,cal,uploadUri.toString());
+
+        if (!TextUtils.isEmpty(name)&& !TextUtils.isEmpty(cal)){
+            if(id != null)mDataBase.child(id).setValue(newRecipe);
+            Toast.makeText(this,"Сохранено", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "Пустое поле", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    public void onClickSave(View view){
+
+        uploadImage();
 
     }
 
@@ -87,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         intentChooser.setType("image/*");
         intentChooser.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intentChooser,1);
+
     }
     //Загрузка на бд Firebase
     private void uploadImage(){
@@ -105,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 uploadUri = task.getResult();
+                saveRecipe();
 
             }
         });
