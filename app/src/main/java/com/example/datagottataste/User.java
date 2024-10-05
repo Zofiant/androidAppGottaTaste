@@ -8,22 +8,20 @@ public class User implements Parcelable {
     private String id;
     private String name;
     private String surname;
-    private Integer age;
     private String description;
-    private List<String> events;
+    private List<String> recipes;
     private Boolean isCreator;
     private String userImageUrl;
 
     public User(String id, String name, String surname,
                 Integer age, String description,
-                List<String> events, Boolean isCreator,
+                List<String> recipes, Boolean isCreator,
                 String userImageUrl) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.age = age;
         this.description = description;
-        this.events = events;
+        this.recipes = recipes;
         this.isCreator = isCreator;
         this.userImageUrl = userImageUrl;
     }
@@ -36,9 +34,8 @@ public class User implements Parcelable {
         id = in.readString();
         name = in.readString();
         surname = in.readString();
-        age = in.readInt();
         description = in.readString();
-        events = in.createStringArrayList();
+        recipes = in.createStringArrayList();
         byte tmpIsCreator = in.readByte();
         isCreator = tmpIsCreator == 0 ? null : tmpIsCreator == 1;
         userImageUrl = in.readString();
@@ -49,9 +46,8 @@ public class User implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(surname);
-        dest.writeInt(age);
         dest.writeString(description);
-        dest.writeStringList(events);
+        dest.writeStringList(recipes);
         dest.writeByte((byte) (isCreator == null ? 0 : isCreator ? 1 : 2));
         dest.writeString(userImageUrl);
     }
@@ -96,15 +92,6 @@ public class User implements Parcelable {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -113,12 +100,12 @@ public class User implements Parcelable {
         this.description = description;
     }
 
-    public List<String> getEvents() {
-        return events;
+    public List<String> getRecipes() {
+        return recipes;
     }
 
-    public void setEvents(List<String> events) {
-        this.events = events;
+    public void setRecipes(List<String> recipes) {
+        this.recipes = recipes;
     }
 
     public Boolean isCreator() {

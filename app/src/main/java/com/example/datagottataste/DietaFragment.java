@@ -1,7 +1,6 @@
 package com.example.datagottataste;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,27 +10,33 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.datagottataste.databinding.FragmentDietaBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 /*TODO understand what that shitty code does and add RecipeAdapter and RecipeBd for it.
    Choose between recycleView and listView */
 public class DietaFragment extends Fragment {
     private static final String ARG_DATE = "arg_date";
     private String formattedDate;
-    private ListView recipeList;
+    private List<RecipeBd> dateRecipeList;
     private RecipeListAdapter adapter;
-    private List<RecipeBd> checkedRecipe;
     private FragmentDietaBinding binding;
     private SharedPreferences sharedPreferences;
     //private ActivityResultLauncher<Intent> activityResultLauncher;
+    DatabaseReference mDataBase;
+    StorageReference mStorageReference;
 
 
     public static DietaFragment newInstance(String formattedDate) { // Изменено имя параметра
@@ -72,12 +77,35 @@ public class DietaFragment extends Fragment {
             activityResultLauncher.launch(intent);
         });
     }
+    private void getDataFromFirebase() {
+        mDataBase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Метод вызывается при каждом изменении данных в указанном пути
+                dateRecipeList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    RecipeBd item = snapshot.getValue(RecipeBd.class);
+                    dateRecipeList.add(item);
+                }
+                // Обработка или отображение полученного списка
+                updateUI(dateRecipeList);
+            }
 
+
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Обработка ошибки
+                Log.w("Firebase", "Failed to read value.", error.toException());
+            }
+        });
+    }
     private void loadDietData() {
 
         binding.textViewDietData.setText(String.valueOf(formattedDate));
     }
-
+    public void updateUI(List<RecipeBd> dateRecipeList) {
+    }
     public void saveDietData(String dietData) {
 
     }

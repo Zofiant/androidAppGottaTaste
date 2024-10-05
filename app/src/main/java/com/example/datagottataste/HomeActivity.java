@@ -1,5 +1,6 @@
 package com.example.datagottataste;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,7 +8,11 @@ import android.os.Bundle;
 import android.app.DatePickerDialog;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.Toolbar;
+
 import com.example.datagottataste.databinding.ActivityHomeBinding;
+
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,12 +22,23 @@ public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding;
     Calendar dateAndTime = Calendar.getInstance();
     String formattedDate;
+    private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setInitialDateTime();
         setContentView(binding.getRoot());
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(findViewById(R.id.toolbar));
+//
+//        drawerLayout = findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        //ActionBarForMenu
+//        /* TODO why the fuck this isnt working*/
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.containerOfDate, new DietaFragment())

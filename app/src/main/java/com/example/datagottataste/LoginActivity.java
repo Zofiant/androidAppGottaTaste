@@ -32,23 +32,28 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         mAuth = FirebaseAuth.getInstance();
+
     }
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null){
-            updateUI(currentUser);
-        }
-        else {
-
-        }
+//        if (currentUser != null){
+//            updateUI(currentUser);
+//        }
+//        else {}
     }
 
     private void updateUI(FirebaseUser currentUser) {
         Intent start = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(start);
+    }
+
+    private void goToAddProfile(FirebaseUser curruntUser){
+        Intent add = new Intent(LoginActivity.this, AddProfile.class);
+        startActivity(add);
+
     }
 
     public void onClickLogin(View view) {
@@ -68,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                         Toast.makeText(LoginActivity.this, "Ошибка аутентификации",
                                 Toast.LENGTH_SHORT).show();
-                        updateUI(null);
+
                     }
 
                 }
@@ -86,13 +91,13 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Регистрация прошла успешно.",
                                 Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
-                        updateUI(user);
+                        goToAddProfile(user);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                         Toast.makeText(LoginActivity.this, "Ошибка аутентификации",
                                 Toast.LENGTH_SHORT).show();
-                        updateUI(null);
+                        goToAddProfile(null);
                     }
 
                 }
