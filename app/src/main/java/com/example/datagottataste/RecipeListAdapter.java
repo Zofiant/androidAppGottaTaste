@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 
@@ -17,16 +20,20 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     private Context context;
     private List<RecipeBd> recipeList;
-    private OnItemClickListener onItemClickListener;
+    private buttonClickListener buttonClickListener;
+    Button button;
 
-    public interface OnItemClickListener {
-        void onItemClick(RecipeBd event);
+
+
+    public interface buttonClickListener {
+        void onButtonClick(int position);
+
     }
 
-    public RecipeListAdapter(Context context, List<RecipeBd> recipeList, OnItemClickListener onItemClickListener) {
+    public RecipeListAdapter(Context context, List<RecipeBd> recipeList, buttonClickListener buttonClickListener) {
         this.context = context;
         this.recipeList = recipeList;
-        this.onItemClickListener = onItemClickListener;
+        this.buttonClickListener = buttonClickListener;
     }
 
     @NonNull
@@ -34,6 +41,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_list_recipe, parent, false);
         return new RecipeViewHolder(view);
+
     }
 
     @Override
@@ -41,13 +49,18 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         RecipeBd recipe = recipeList.get(position);
         holder.RecipeNameTextView.setText(recipe.getName());
         holder.CalTextView.setText(recipe.getCal());
+
+
         if (recipe.getImageUrl() != null && !recipe.getImageUrl().isEmpty()) {
             Picasso.get().load(recipe.getImageUrl()).into(holder.imageView);
         } else {
             holder.imageView.setImageResource(R.drawable.ic_launcher_background);
         }
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(recipe));
+        holder.BtnAddToDietDay.setOnClickListener(v -> buttonClickListener.onButtonClick(position));
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -58,12 +71,14 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         ImageView imageView;
         TextView RecipeNameTextView;
         TextView CalTextView;
+        Button BtnAddToDietDay;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             RecipeNameTextView = itemView.findViewById(R.id.textViewName);
             CalTextView = itemView.findViewById(R.id.textViewCal);
+            BtnAddToDietDay = itemView.findViewById(R.id.addToDietDayBtn);
         }
     }
 }

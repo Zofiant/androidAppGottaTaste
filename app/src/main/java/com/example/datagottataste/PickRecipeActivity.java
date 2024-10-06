@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.datagottataste.databinding.ActivityPickRecipeBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PickRecipeActivity extends AppCompatActivity {
+public class PickRecipeActivity extends AppCompatActivity implements RecipeListAdapter.buttonClickListener {
     ActivityPickRecipeBinding binding;
     private RecipeListAdapter recipeAdapter;
     private User user;
@@ -72,23 +74,27 @@ public class PickRecipeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onButtonClick(int position) {
+        Log.d("RecipeListAdapter", "Button clicked at position: " + position);
+        int p = position + 1;
+        Toast.makeText(this, "Position"+ p, Toast.LENGTH_SHORT).show(); // Отображаем Toast
+    }
+
     private void updateUI(List<RecipeBd> list) {
         recipeAdapter = new RecipeListAdapter(this, recipeList, recipe -> {
             Bundle bundle = new Bundle();
-
-
-
-            bundle.putParcelable("Recipe", recipe);
 
         });
         binding.recyclerView.setAdapter(recipeAdapter);
     }
 
-    public void goActivityNewRec(){
+    public void goActivityNewRec(View view){
         Intent start = new Intent(PickRecipeActivity.this, MainActivity.class);
         startActivity(start);
 
     }
+
 
 }
 

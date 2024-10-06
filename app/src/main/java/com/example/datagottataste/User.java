@@ -9,19 +9,19 @@ public class User implements Parcelable {
     private String name;
     private String surname;
     private String description;
-    private List<String> recipes;
+    private List<String> dates;
     private Boolean isCreator;
     private String userImageUrl;
 
     public User(String id, String name, String surname,
                 Integer age, String description,
-                List<String> recipes, Boolean isCreator,
+                List<String> dates, Boolean isCreator,
                 String userImageUrl) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.description = description;
-        this.recipes = recipes;
+        this.dates = dates;
         this.isCreator = isCreator;
         this.userImageUrl = userImageUrl;
     }
@@ -35,7 +35,7 @@ public class User implements Parcelable {
         name = in.readString();
         surname = in.readString();
         description = in.readString();
-        recipes = in.createStringArrayList();
+        dates = in.createStringArrayList();
         byte tmpIsCreator = in.readByte();
         isCreator = tmpIsCreator == 0 ? null : tmpIsCreator == 1;
         userImageUrl = in.readString();
@@ -47,7 +47,7 @@ public class User implements Parcelable {
         dest.writeString(name);
         dest.writeString(surname);
         dest.writeString(description);
-        dest.writeStringList(recipes);
+        dest.writeStringList(dates);
         dest.writeByte((byte) (isCreator == null ? 0 : isCreator ? 1 : 2));
         dest.writeString(userImageUrl);
     }
@@ -100,12 +100,12 @@ public class User implements Parcelable {
         this.description = description;
     }
 
-    public List<String> getRecipes() {
-        return recipes;
+    public List<String> getDates() {
+        return dates;
     }
 
-    public void setRecipes(List<String> recipes) {
-        this.recipes = recipes;
+    public void setDates(List<String> dates) {
+        this.dates = dates;
     }
 
     public Boolean isCreator() {

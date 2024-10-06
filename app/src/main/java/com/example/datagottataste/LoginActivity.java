@@ -39,10 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null){
-//            updateUI(currentUser);
-//        }
-//        else {}
+        if (currentUser != null){
+            updateUI(currentUser);
+        }
+        else {}
     }
 
     private void updateUI(FirebaseUser currentUser) {
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                         Toast.makeText(LoginActivity.this, "Ошибка аутентификации",
                                 Toast.LENGTH_SHORT).show();
-                        goToAddProfile(null);
+
                     }
 
                 }

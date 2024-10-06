@@ -11,8 +11,12 @@ import android.widget.DatePicker;
 import android.widget.Toolbar;
 
 import com.example.datagottataste.databinding.ActivityHomeBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +27,11 @@ public class HomeActivity extends AppCompatActivity {
     Calendar dateAndTime = Calendar.getInstance();
     String formattedDate;
     private DrawerLayout drawerLayout;
+    FirebaseAuth auth;
+    FirebaseUser user;
+    User userInfo;
+    FirebaseDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +48,30 @@ public class HomeActivity extends AppCompatActivity {
 //        /* TODO why the fuck this isnt working*/
 //        drawerLayout.addDrawerListener(toggle);
 //        toggle.syncState();
+
+        auth = FirebaseAuth.getInstance();
+
+        database = FirebaseDatabase.getInstance(Const.DB_URL);
+
+        user = auth.getCurrentUser();
+        setNewFragment(new DietaFragment());
+
+
+    }
+
+    private void setNewFragment(Fragment fragment) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("user", userInfo);
+        bundle.putString("date",formattedDate);
+        fragment.setArguments(bundle);
+
+
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.containerOfDate, new DietaFragment())
+                .replace(R.id.containerOfDate, fragment)
                 .commit();
+
     }
 
     private void setInitialDateTime() {
@@ -50,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
         String formattedDate = localDate.format(formatter);
         binding.Date.setText(formattedDate);
-        updateFragment(formattedDate);
+        setNewFragment(new DietaFragment());
     }
 
     public void setDate(View v) {
@@ -81,4 +110,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    
+    
 }

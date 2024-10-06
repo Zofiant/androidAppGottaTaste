@@ -30,13 +30,15 @@ import java.util.List;
 public class DietaFragment extends Fragment {
     private static final String ARG_DATE = "arg_date";
     private String formattedDate;
-    private List<RecipeBd> dateRecipeList;
+    private List<RecipeDate> dateRecipeList;
     private RecipeListAdapter adapter;
     private FragmentDietaBinding binding;
     private SharedPreferences sharedPreferences;
     //private ActivityResultLauncher<Intent> activityResultLauncher;
     DatabaseReference mDataBase;
     StorageReference mStorageReference;
+    private User user;
+    private String currentDate;
 
 
     public static DietaFragment newInstance(String formattedDate) { // Изменено имя параметра
@@ -49,9 +51,10 @@ public class DietaFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments()!= null) {
-            formattedDate = getArguments().getString("formattedDate"); // Получаем строку с форматированным временем
-
+        Bundle args = getArguments();
+        if (args != null) {
+            user = args.getParcelable("user");
+            currentDate = args.getString("date");
         }
     }
 
@@ -61,7 +64,7 @@ public class DietaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentDietaBinding.inflate(inflater, container, false);
-        loadDietData();
+        //getDataFromFirebase();
         return binding.getRoot();
 
 
@@ -78,21 +81,25 @@ public class DietaFragment extends Fragment {
         });
     }
     private void getDataFromFirebase() {
+        // Добавляем слушатель для изменений данных
         mDataBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Метод вызывается при каждом изменении данных в указанном пути
                 dateRecipeList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    RecipeBd item = snapshot.getValue(RecipeBd.class);
-                    dateRecipeList.add(item);
+                    RecipeDate item = snapshot.getValue(RecipeDate.class);
+
+                    if(item.getUserId().contains(user.getId())){
+                        if(item.getDateOfDiet().equals(currentDate)){
+                            dateRecipeList.add(item);
+                        }
+                    }
+
                 }
                 // Обработка или отображение полученного списка
                 updateUI(dateRecipeList);
             }
-
-
-
             @Override
             public void onCancelled(DatabaseError error) {
                 // Обработка ошибки
@@ -100,20 +107,21 @@ public class DietaFragment extends Fragment {
             }
         });
     }
-    private void loadDietData() {
 
-        binding.textViewDietData.setText(String.valueOf(formattedDate));
-    }
-    public void updateUI(List<RecipeBd> dateRecipeList) {
+    public void updateUI(List<RecipeDate> dateRecipeList) {
     }
     public void saveDietData(String dietData) {
+
 
     }
     private final ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            // Handle the result from PickRecipeActivity
+
+
+                            /*TODO Здесь нужно создать новое поле Date
+                            TODO и в начале сделать прогрузку Date при выборе даты */
                         }
                     });
 

@@ -5,34 +5,38 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class RecipeBd implements Parcelable {
-    public String id, name, cal, imageId;
-    public RecipeBd() {
+public class RecipeDate implements Parcelable {
+    public String id, name, cal, imageId, userId,dateOfDiet;
+    public RecipeDate() {
     }
-    public RecipeBd(String id, String name, String cal, String imageId) {
+    public RecipeDate(String id, String name, String cal, String imageId, String userId, String dateOfDiet) {
         this.id = id;
         this.name = name;
         this.cal = cal;
         this.imageId = imageId;
+        this.userId = userId;
+        this.dateOfDiet = dateOfDiet;
     }
 
 
-    protected RecipeBd(Parcel in) {
+    protected RecipeDate(Parcel in) {
         id = in.readString();
         name = in.readString();
         cal = in.readString();
         imageId = in.readString();
+        userId = in.readString();
+        dateOfDiet = in.readString();
     }
 
-    public static final Creator<RecipeBd> CREATOR = new Creator<RecipeBd>() {
+    public static final Creator<RecipeDate> CREATOR = new Creator<RecipeDate>() {
         @Override
-        public RecipeBd createFromParcel(Parcel in) {
-            return new RecipeBd(in);
+        public RecipeDate createFromParcel(Parcel in) {
+            return new RecipeDate(in);
         }
 
         @Override
-        public RecipeBd[] newArray(int size) {
-            return new RecipeBd[size];
+        public RecipeDate[] newArray(int size) {
+            return new RecipeDate[size];
         }
     };
 
@@ -47,6 +51,8 @@ public class RecipeBd implements Parcelable {
         dest.writeString(name);
         dest.writeString(cal);
         dest.writeString(imageId);
+        dest.writeString(userId);
+        dest.writeString(dateOfDiet);
     }
 
 
@@ -58,5 +64,9 @@ public class RecipeBd implements Parcelable {
     public void setCal(String cal) { this.cal = cal; }
     public String getImageUrl() { return imageId; }
     public void setImageUrl(String imageId) { this.imageId = imageId; }
+    public String getUserId() { return  userId; };
+    public void setUserId(String userId) { this.userId = userId; };
+    public String getDateOfDiet() { return dateOfDiet; };
+    public void setDateOfDiet(String dateOfDiet) { this.dateOfDiet = dateOfDiet; };
 
 }
