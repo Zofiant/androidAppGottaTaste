@@ -10,7 +10,6 @@
     android:paddingHorizontal="40dp"
     tools:context=".AddProfile">
 
-
     <ScrollView
         android:id="@+id/profile_scroll_view"
         android:layout_width="match_parent"
@@ -191,16 +190,4 @@
                 android:text="@string/save"/>
         </LinearLayout>
     </ScrollView>
-
-
-
-
-
-
-
-
-
-
-
-
 </LinearLayout>

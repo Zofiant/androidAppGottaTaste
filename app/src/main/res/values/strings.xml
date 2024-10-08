@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DataGottaTaste</string>
+    <string name="app_name">Gotta Taste</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="name_surname">Name Surname</string>
@@ -14,4 +14,5 @@
     <string name="close_nav">Close Navigation Drawer</string>
     <string name="save">Сохранить</string>
     <string name="edit">Изменить</string>
+    <string name="back">Back</string>
 </resources>

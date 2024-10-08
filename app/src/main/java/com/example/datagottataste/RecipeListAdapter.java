@@ -23,15 +23,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     //private buttonClickListener buttonClickListener;
     Button button;
     final RecycleViewInterface recycleViewInterface;
-
-
-
     public RecipeListAdapter(Context context, List<RecipeBd> recipeList, RecycleViewInterface recycleViewInterface) {
         this.context = context;
         this.recipeList = recipeList;
         this.recycleViewInterface = recycleViewInterface;
     }
-
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,9 +41,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         RecipeBd recipe = recipeList.get(position);
         holder.RecipeNameTextView.setText(recipe.getName());
         holder.CalTextView.setText(recipe.getCal());
-
-
-
         if (recipe.getImageUrl() != null && !recipe.getImageUrl().isEmpty()) {
             Picasso.get().load(recipe.getImageUrl()).into(holder.imageView);
         } else {
@@ -55,9 +48,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         }
         //holder.BtnAddToDietDay.setOnClickListener(v -> buttonClickListener.onButtonClick(position));
     }
-
-
-
 
     @Override
     public int getItemCount() {
@@ -71,9 +61,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         Button BtnAddToDietDay;
         RecycleViewInterface recycleViewInterface;
         private List<RecipeBd> recipeList;
-
-
-
         public RecipeViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface, List<RecipeBd> recipeList) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
@@ -84,18 +71,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             this.recycleViewInterface = recycleViewInterface;
             this.recipeList = recipeList;
             BtnAddToDietDay.setOnClickListener(this);
-
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if ( recycleViewInterface != null){
-//                        int pos = getAdapterPosition();
-//                        if(pos != RecyclerView.NO_POSITION){
-//                            recycleViewInterface.onItemClick(pos);
-//                        }
-//                    }
-//                }
-//            });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -110,7 +85,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                 }
             });
         }
-
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
@@ -119,6 +93,5 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                 recycleViewInterface.onItemClick(recipe); // Pass the recipe object
             }
         }
-
     }
 }

@@ -101,8 +101,6 @@ public class AddProfile extends AppCompatActivity {
         });
     }
 
-
-
     View.OnClickListener initAddUserInfo = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -131,7 +129,6 @@ public class AddProfile extends AppCompatActivity {
             binding.progressBar.setVisibility(View.GONE);
             return null;
         }
-
         if (TextUtils.isEmpty(name)){
             Toast.makeText(AddProfile.this, "Not valid Name", Toast.LENGTH_SHORT).show();
             binding.progressBar.setVisibility(View.GONE);
@@ -169,12 +166,9 @@ public class AddProfile extends AppCompatActivity {
             finish();
         }
     }
-
     public void goToMain() {
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         finish();
     }
-
-
 }

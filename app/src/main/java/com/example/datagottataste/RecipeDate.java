@@ -18,8 +18,6 @@ public class RecipeDate implements Parcelable {
         this.userId = userId;
         this.dateOfDiet = dateOfDiet;
     }
-
-
     protected RecipeDate(Parcel in) {
         id = in.readString();
         recipeId = in.readString();
@@ -57,8 +55,6 @@ public class RecipeDate implements Parcelable {
         dest.writeString(userId);
         dest.writeString(dateOfDiet);
     }
-
-
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public String getName() { return name; }

@@ -25,11 +25,7 @@ public class User implements Parcelable {
         this.isCreator = isCreator;
         this.userImageUrl = userImageUrl;
     }
-
-    public User() {
-
-    }
-
+    public User(){}
     protected User(Parcel in) {
         id = in.readString();
         name = in.readString();
@@ -62,7 +58,6 @@ public class User implements Parcelable {
         public User createFromParcel(Parcel in) {
             return new User(in);
         }
-
         @Override
         public User[] newArray(int size) {
             return new User[size];
@@ -72,54 +67,42 @@ public class User implements Parcelable {
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getSurname() {
         return surname;
     }
-
     public void setSurname(String surname) {
         this.surname = surname;
     }
     public Integer getAge() {
         return age;
     }
-
     public void setAge(Integer age) {
         this.age = age;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public Boolean isCreator() {
         return isCreator;
     }
-
     public void setCreator(Boolean creator) {
         isCreator = creator;
     }
-
     public String getUserImageUrl() {
         return userImageUrl;
     }
-
     public void setUserImageUrl(String userImageUrl) {
         this.userImageUrl = userImageUrl;
     }

@@ -42,7 +42,6 @@ public class PickRecipeActivity extends AppCompatActivity implements RecycleView
     DatabaseReference userRef;
     User userInfo;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,12 +62,13 @@ public class PickRecipeActivity extends AppCompatActivity implements RecycleView
         user = auth.getCurrentUser();
         userRef = database.getReference(Const.KEY_USER).child(user.getUid());
         user = auth.getCurrentUser();
-
-        binding.fbtnAddNewRecipe.setVisibility(View.VISIBLE);
-
-
+        userInfo = getIntent().getParcelableExtra("USER_INFO");
+        binding.fbtnAddNewRecipe.setVisibility(View.GONE);
+        if (userInfo.isCreator())
+        {
+            binding.fbtnAddNewRecipe.setVisibility(View.VISIBLE);
+        }
         getDataFromFirebase();
-        updateUserInfo();
     }
 
     private void getDataFromFirebase() {
@@ -84,7 +84,6 @@ public class PickRecipeActivity extends AppCompatActivity implements RecycleView
                 // Обработка или отображение полученного списка
                 updateUI(recipeList);
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
                 // Обработка ошибки
@@ -93,23 +92,16 @@ public class PickRecipeActivity extends AppCompatActivity implements RecycleView
         });
     }
 
-
-
     private void updateUI(List<RecipeBd> list) {
         recipeAdapter = new RecipeListAdapter(this, recipeList, this);
         binding.recyclerView.setAdapter(recipeAdapter);
     }
-
     public void goActivityNewRec(View view){
         Intent goToAddNewRecipe = new Intent(PickRecipeActivity.this,MainActivity.class);
         startActivity(goToAddNewRecipe);
 
 
     }
-
-
-
-
     @Override
     public void onItemClick(RecipeBd recipe) {
         Intent intentToAddNewDateRecipe = getIntent();
@@ -149,26 +141,6 @@ public class PickRecipeActivity extends AppCompatActivity implements RecycleView
             }
         });
     }
-    public void  updateUserInfo(){
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userInfo = dataSnapshot.getValue(User.class);
-                Log.d("Load", "good");
-                if (userInfo != null && userInfo.isCreator()) {
-                    binding.fbtnAddNewRecipe.setVisibility(View.GONE);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Обработка ошибки
-                Log.d("Load", "Error getting user data: " + databaseError.getMessage());
-            }
-        });
-
-    };
 }
 
 

@@ -46,37 +46,22 @@ public class HomeActivity extends AppCompatActivity implements  NavigationView.O
     private DrawerLayout drawerLayout;
     FirebaseAuth auth;
     FirebaseUser user;
-    User userInfo;
+    User userver;
     FirebaseDatabase database;
     DatabaseReference userRef;
     String userId;
-
+    Boolean check;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(findViewById(R.id.toolbar));
-//
-//        drawerLayout = findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        //ActionBarForMenu
-
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
-        setInitialDateTime();
+        check = false;
         auth = FirebaseAuth.getInstance();
-
         database = FirebaseDatabase.getInstance(Const.DB_URL);
-
         user = auth.getCurrentUser();
         userId = user.getUid();
         userRef = database.getReference(Const.KEY_USER);
-
-
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(binding.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -86,10 +71,7 @@ public class HomeActivity extends AppCompatActivity implements  NavigationView.O
                 R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
-
-
+        findById(userId);
     }
 
     @Override
@@ -99,16 +81,16 @@ public class HomeActivity extends AppCompatActivity implements  NavigationView.O
         if (id == R.id.nav_home) {
             startActivity(new Intent(this, HomeActivity.class));
         } else if (id == R.id.nav_profile) {
-            findById(userId);
+            onUserRetrieved(userver,1);
+
         } else if (id == R.id.nav_about) {
-            startActivity(new Intent(this, AboutActivity.class));
+            onUserRetrieved(userver,2);
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
             finish(); // Закрыть текущую активность
         }
-
         drawerLayout.closeDrawer(GravityCompat.START); // Закрыть боковое меню после выбора
         return true;
     }
@@ -121,20 +103,16 @@ public class HomeActivity extends AppCompatActivity implements  NavigationView.O
             super.onBackPressed();
         }
     }
-
     private void setInitialDateTime() {
         LocalDate localDate = LocalDate.of(dateAndTime.get(Calendar.YEAR), dateAndTime.get(Calendar.MONTH) + 1, dateAndTime.get(Calendar.DAY_OF_MONTH));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
         String formattedDate = localDate.format(formatter);
         binding.Date.setText(formattedDate);
-        updateFragment(formattedDate,userInfo);
-
-
-
-
-
+        updateFragment(formattedDate,userver);
+        if (formattedDate != null) {
+            check = true;
+        }
     }
-
     public void setDate(View v) {
         new DatePickerDialog(HomeActivity.this, d,
                 dateAndTime.get(Calendar.YEAR),
@@ -142,7 +120,6 @@ public class HomeActivity extends AppCompatActivity implements  NavigationView.O
                 dateAndTime.get(Calendar.DAY_OF_MONTH))
                 .show();
     }
-
     DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -153,17 +130,13 @@ public class HomeActivity extends AppCompatActivity implements  NavigationView.O
 
         }
     };
-
-
-    private void updateFragment(String formattedDate, User userInfo) {
+    private void updateFragment(String formattedDate, User userver) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        DietaFragment fragment = DietaFragment.newInstance(formattedDate,userInfo);// Передаем строку с форматированным временем
+        DietaFragment fragment = DietaFragment.newInstance(formattedDate,userver);// Передаем строку с форматированным временем
         fragmentManager.beginTransaction()
                 .replace(R.id.containerOfDate, fragment)
                 .commit();
     }
-
-
 
         private TextView nameTextView;
 
@@ -174,42 +147,38 @@ public class HomeActivity extends AppCompatActivity implements  NavigationView.O
                     .addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            User userver = dataSnapshot.getValue(User.class);
-                            onUserRetrieved(userver);
+                            userver = dataSnapshot.getValue(User.class);
+                            setInitialDateTime();
                         }
 
                         @Override
                         public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
                         }
 
                         @Override
                         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
                         }
 
                         @Override
                         public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
                         }
                     });
         }
-
-
-
-
-    private void onUserRetrieved(User userver) {
-            Intent navProfile = new Intent(this, ProfileActivity.class);
-            navProfile.putExtra("PROFILE",userver);
-            startActivity(navProfile);
+    private void onUserRetrieved(User userver,int caseOfIntent) {
+            if (caseOfIntent == 1){
+                Intent navProfile = new Intent(this, ProfileActivity.class);
+                navProfile.putExtra("PROFILE",userver);
+                startActivity(navProfile);
+            }
+            else {
+                Intent AboutActivity = new Intent(this, AboutActivity.class);
+                AboutActivity.putExtra("USER_INFO", userver);
+                startActivity(AboutActivity);
+            }
 
         }
-
-
-
 }

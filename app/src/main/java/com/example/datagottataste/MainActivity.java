@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private Button addRec,addPhoto;
     private EditText edName,edCal;
     private DatabaseReference mDataBase;
-
     private ImageView imgRec;
     private StorageReference mStorageRef;
     private Uri uploadUri;
@@ -45,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     FirebaseDatabase database;
     DatabaseReference userRef;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +51,7 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         init();
-
     }
-
     public void init(){
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance(Const.DB_URL);
@@ -71,28 +66,21 @@ public class MainActivity extends AppCompatActivity {
         imgRec = binding.imageRec;
         mStorageRef = FirebaseStorage.getInstance().getReference("ImageDB");
     }
-
     public void saveRecipe(String name,String cal){
         String id = mDataBase.push().getKey();
         RecipeBd newRecipe = new RecipeBd(id,name,cal,uploadUri.toString());
-
-
         if(id != null)
         {
             mDataBase.child(id).setValue(newRecipe);
             Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT).show();
             Intent savedRecipe = new Intent(MainActivity.this, PickRecipeActivity.class);
             startActivity(savedRecipe);
-
         }
         else {
             Toast.makeText(this, "Ошибка загрузки", Toast.LENGTH_SHORT).show();
         }
-
-
     }
     public void onClickSave(View view){
-
         String name = edName.getText().toString();
         String cal = edCal.getText().toString();
         if (!TextUtils.isEmpty(name)&& !TextUtils.isEmpty(cal)){
@@ -103,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
     public void onClickChooseImage(View view){
         getImage();
     }
@@ -118,13 +105,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
     private void getImage(){
         Intent intentChooser = new Intent();
         intentChooser.setType("image/*");
         intentChooser.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intentChooser,1);
-
     }
     //Загрузка на бд Firebase
     private void uploadImage(String name, String cal){

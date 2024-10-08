@@ -9,8 +9,6 @@
     android:orientation="vertical"
     android:paddingHorizontal="40dp"
     tools:context=".AddProfile">
-
-
     <TextView
 
         android:layout_width="match_parent"
@@ -21,17 +19,13 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold" />
-
-
     <ImageView
         android:id="@+id/chooseImageButton"
         android:layout_width="130dp"
         android:layout_height="130dp"
-
         android:src="@drawable/default_profile_picture"
         android:scaleType="centerCrop"
         tools:srcCompat="@drawable/default_profile_picture" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +34,6 @@
         app:boxCornerRadiusTopStart="25dp"
         app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusTopEnd="25dp">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -57,7 +50,6 @@
         app:boxCornerRadiusTopStart="25dp"
         app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusTopEnd="25dp">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/surname"
             android:layout_width="match_parent"
@@ -74,7 +66,6 @@
         app:boxCornerRadiusTopStart="25dp"
         app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusTopEnd="25dp">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/description"
             android:layout_width="match_parent"
@@ -92,7 +83,6 @@
         app:boxCornerRadiusTopStart="25dp"
         app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusTopEnd="25dp">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/age"
             android:layout_width="match_parent"
@@ -108,19 +98,13 @@
             android:textColor="@color/black"
             android:buttonTint="@color/whiteGrey"
             android:text="@string/i_am_a_creator" />
-
-
     </com.google.android.material.textfield.TextInputLayout>
-
-
-
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
-
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
@@ -131,5 +115,4 @@
         android:text="@string/go_next"
         android:textColor="@color/white"
         android:textSize="20sp"/>
-
 </LinearLayout>

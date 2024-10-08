@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         mAuth = FirebaseAuth.getInstance();
-
     }
     @Override
     public void onStart() {
@@ -44,18 +43,15 @@ public class LoginActivity extends AppCompatActivity {
         }
         else {}
     }
-
     private void updateUI(FirebaseUser currentUser) {
         Intent start = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(start);
     }
-
     private void goToAddProfile(FirebaseUser curruntUser){
         Intent add = new Intent(LoginActivity.this, AddProfile.class);
         startActivity(add);
 
     }
-
     public void onClickLogin(View view) {
         if (!TextUtils.isEmpty(binding.editTextMail.getText().toString()) && !TextUtils.isEmpty(binding.editTextPassword.getText().toString())){
             mAuth.signInWithEmailAndPassword(binding.editTextMail.getText().toString(),binding.editTextPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

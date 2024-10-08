@@ -24,15 +24,11 @@ public class RecipeDateListAdapter extends RecyclerView.Adapter<RecipeDateListAd
     //private buttonClickListener buttonClickListener;
     Button button;
     final RecycleViewDateInterface RecycleViewDateInterface;
-
-
-
     public RecipeDateListAdapter(Context context, List<RecipeDate> recipeList, RecycleViewDateInterface RecycleViewDateInterface) {
         this.context = context;
         this.recipeList = recipeList;
         this.RecycleViewDateInterface = RecycleViewDateInterface;
     }
-
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,9 +42,6 @@ public class RecipeDateListAdapter extends RecyclerView.Adapter<RecipeDateListAd
         RecipeDate recipe = recipeList.get(position);
         holder.RecipeNameTextView.setText(recipe.getName());
         holder.CalTextView.setText(recipe.getCal());
-
-
-
         if (recipe.getImageUrl() != null && !recipe.getImageUrl().isEmpty()) {
             Picasso.get().load(recipe.getImageUrl()).into(holder.imageView);
         } else {
@@ -56,10 +49,6 @@ public class RecipeDateListAdapter extends RecyclerView.Adapter<RecipeDateListAd
         }
         //holder.BtnAddToDietDay.setOnClickListener(v -> buttonClickListener.onButtonClick(position));
     }
-
-
-
-
     @Override
     public int getItemCount() {
         return recipeList.size();
@@ -73,8 +62,6 @@ public class RecipeDateListAdapter extends RecyclerView.Adapter<RecipeDateListAd
         RecycleViewDateInterface RecycleViewDateInterface;
         private List<RecipeDate> recipeList;
 
-
-
         public RecipeViewHolder(@NonNull View itemView, RecycleViewDateInterface RecycleViewDateInterface, List<RecipeDate> recipeList) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
@@ -84,19 +71,7 @@ public class RecipeDateListAdapter extends RecyclerView.Adapter<RecipeDateListAd
             int pos = getAdapterPosition();
             this.RecycleViewDateInterface = RecycleViewDateInterface;
             this.recipeList = recipeList;
-            BtnAddToDietDay.setOnClickListener(this);
-
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if ( RecycleViewDateInterface != null){
-//                        int pos = getAdapterPosition();
-//                        if(pos != RecyclerView.NO_POSITION){
-//                            RecycleViewDateInterface.onItemClick(pos);
-//                        }
-//                    }
-//                }
-//            });
+            BtnAddToDietDay.setVisibility(View.GONE);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -111,7 +86,6 @@ public class RecipeDateListAdapter extends RecyclerView.Adapter<RecipeDateListAd
                 }
             });
         }
-
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();

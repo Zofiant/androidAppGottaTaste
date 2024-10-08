@@ -47,17 +47,17 @@ public class DietaFragment extends Fragment implements RecycleViewDateInterface{
     FirebaseAuth auth;
     FirebaseUser user;
     private String currentDate;
-    User userInfo;
+    User userver;
     Integer totalCalories = 0;
     private ProgressBar progressBar;
     private RecipeDateListAdapter recipeAdapter;
     TextView showCal;
 
-    public static DietaFragment newInstance(String currentDate, User userInfo) { // Изменено имя параметра
+    public static DietaFragment newInstance(String currentDate, User userver) { // Изменено имя параметра
         DietaFragment fragment = new DietaFragment();
         Bundle args = new Bundle();
         args.putString("currentDate", currentDate);
-        args.putParcelable("userInfo",userInfo);
+        args.putParcelable("userInfo",userver);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,9 +66,7 @@ public class DietaFragment extends Fragment implements RecycleViewDateInterface{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentDate = getArguments().getString("currentDate");
-        userInfo = getArguments().getParcelable("userInfo");
-
-
+        userver = getArguments().getParcelable("userInfo");
     }
 
     @Nullable
@@ -78,9 +76,6 @@ public class DietaFragment extends Fragment implements RecycleViewDateInterface{
         binding = FragmentDietaBinding.inflate(inflater, container, false);
         //getDataFromFirebase();
         return binding.getRoot();
-
-
-
 
     }
 
@@ -103,8 +98,8 @@ public class DietaFragment extends Fragment implements RecycleViewDateInterface{
         binding.btnAddRecipe.setOnClickListener(v -> {
             Intent intentToAddNewDateRecipe = new Intent(getContext(), PickRecipeActivity.class);
             intentToAddNewDateRecipe.putExtra("CURRENT_DATE", currentDate);
-            intentToAddNewDateRecipe.putExtra("USER_INFO",userInfo);
-            activityResultLauncher.launch(intentToAddNewDateRecipe);
+            intentToAddNewDateRecipe.putExtra("USER_INFO",userver);
+            startActivity(intentToAddNewDateRecipe);
 
 
         });
@@ -138,33 +133,19 @@ public class DietaFragment extends Fragment implements RecycleViewDateInterface{
             }
         });
     }
-
     public void updateUI(List<RecipeDate> dateRecipeList) {
         recipeAdapter = new RecipeDateListAdapter(getContext(), dateRecipeList, this);
         binding.recyclerView.setAdapter(recipeAdapter);
+        totalCalories = 0;
         calculateTotalCalories();
         progressBar.setProgress(totalCalories);
         showCal.setText(String.valueOf(totalCalories));
-        progressBar.setMax(2000);
+        Integer userMaxCalories = Integer.valueOf(userver.getDescription());
+        progressBar.setMax(userMaxCalories);
     }
-
-    private final ActivityResultLauncher<Intent> activityResultLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-
-
-                            /*TODO Здесь нужно создать новое поле Date
-                            TODO и в начале сделать прогрузку Date при выборе даты */
-                        }
-                    });
-
-
     @Override
     public void onItemClick(RecipeDate recipe) {
-
     }
-
     @Override
     public void onClickDelete(int position, RecipeDate recipe) {
         mDataBase.child(recipe.getId()).removeValue().addOnCompleteListener(task -> {
@@ -180,7 +161,6 @@ public class DietaFragment extends Fragment implements RecycleViewDateInterface{
             }
         });
     }
-
     public double calculateTotalCalories() {
         if (dateRecipeList == null || dateRecipeList.isEmpty()) {
             return 0;
@@ -190,11 +170,10 @@ public class DietaFragment extends Fragment implements RecycleViewDateInterface{
         for (RecipeDate recipe : dateRecipeList) {
             String span;
             span = recipe.getCal();
+
             totalCalories += Integer.parseInt(span);
         }
         return (totalCalories); // Round to one decimal place
     }
-
-
 }
 
