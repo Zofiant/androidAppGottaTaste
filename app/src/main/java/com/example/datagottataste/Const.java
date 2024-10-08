@@ -3,6 +3,7 @@ package com.example.datagottataste;
 public class Const {
     public static String KEY_USER = "Users";
     public static String KEY_RECIPE = "Recipe";
+    public static String KEY_DATE_RECIPE = "RecipeDate";
     public static String KEY_CAL = "Calories";
     public static String KEY_PROFILE_IMAGES = "ProfileImages";
     public static String KEY_RECIPE_IMAGES = "RecipeImages";

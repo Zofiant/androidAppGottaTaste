@@ -6,8 +6,12 @@
     <string name="add_some_information">Добавьте информацию о себе</string>
     <string name="name">Введите имя</string>
     <string name="surname">Введите фамилию</string>
-    <string name="description">Расскажите немного о себе</string>
+    <string name="description">Калории в день</string>
     <string name="age">Введите свой возраст</string>
     <string name="go_next">Отправить!</string>
-    <string name="i_am_a_creator">"я создатель статей "</string>
+    <string name="i_am_a_creator">"я Повар"</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Изменить</string>
 </resources>

@@ -6,11 +6,12 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class RecipeDate implements Parcelable {
-    public String id, name, cal, imageId, userId,dateOfDiet;
+    public String id,recipeId, name, cal, imageId, userId,dateOfDiet;
     public RecipeDate() {
     }
-    public RecipeDate(String id, String name, String cal, String imageId, String userId, String dateOfDiet) {
+    public RecipeDate(String id, String recipeId,String name, String cal, String imageId, String userId, String dateOfDiet) {
         this.id = id;
+        this.recipeId = recipeId;
         this.name = name;
         this.cal = cal;
         this.imageId = imageId;
@@ -21,6 +22,7 @@ public class RecipeDate implements Parcelable {
 
     protected RecipeDate(Parcel in) {
         id = in.readString();
+        recipeId = in.readString();
         name = in.readString();
         cal = in.readString();
         imageId = in.readString();
@@ -48,6 +50,7 @@ public class RecipeDate implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(recipeId);
         dest.writeString(name);
         dest.writeString(cal);
         dest.writeString(imageId);
@@ -60,6 +63,8 @@ public class RecipeDate implements Parcelable {
     public void setId(String id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+    public String getRecipeId() { return  recipeId; };
+    public void setRecipeId(String recipeId) { this.recipeId = recipeId; };
     public String getCal() { return cal; }
     public void setCal(String cal) { this.cal = cal; }
     public String getImageUrl() { return imageId; }

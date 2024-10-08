@@ -38,7 +38,7 @@
 
     <Button
         android:id="@+id/addToDietDayBtn"
-        android:text="add"
+        android:text="delete"
         android:padding="0px"
 
         android:layout_width="80dp"

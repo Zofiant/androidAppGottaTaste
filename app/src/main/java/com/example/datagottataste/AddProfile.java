@@ -155,7 +155,8 @@ public class AddProfile extends AppCompatActivity {
 
         Boolean isCreator = binding.isCreator.isChecked();
         String id = user.getUid();
-        return new User(id, name, surname, age, description, new ArrayList<>(), isCreator, uploadUrl.toString());
+        return new User(id, name, surname, age, description, isCreator, uploadUrl.toString());
+
     }
 
     public void checkTheAuth(){
